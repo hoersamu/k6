@@ -343,11 +343,72 @@ main > section,
   background: var(--text);
   color: var(--ink);
   border: 2px solid var(--ink);
-  border-radius: 18px 18px 4px 18px;
+  border-radius: 18px;
   box-shadow: 5px 5px 0 var(--lime);
   padding: 16px;
+  margin-bottom: 14px;
   transform-origin: bottom right;
   transition: transform 0.2s, opacity 0.2s;
+}
+
+/* Speech bubble tails pointing at the mascot */
+.helper__panel::after,
+.helper__teaser::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: var(--text);
+  transform: rotate(45deg);
+}
+
+.helper__panel::after {
+  right: 34px;
+  bottom: -11px;
+  border-right: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+}
+
+.helper__teaser {
+  position: absolute;
+  right: 72px;
+  bottom: 54px;
+  white-space: nowrap;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: var(--text);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--pink);
+  padding: 8px 14px;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.6);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.helper__teaser::after {
+  right: -11px;
+  top: calc(50% - 9px);
+  border-top: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
+}
+
+.helper--closed .helper__teaser {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  animation: helper-pop 4s ease-in-out 1s infinite;
+}
+
+@keyframes helper-pop {
+  0%, 85%, 100% { transform: scale(1); }
+  90% { transform: scale(1.08) rotate(-2deg); }
+  95% { transform: scale(1.04) rotate(2deg); }
 }
 
 .helper--closed .helper__panel {
@@ -434,7 +495,8 @@ main > section,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .helper__mascot { animation: none; }
+  .helper__mascot,
+  .helper--closed .helper__teaser { animation: none; }
 }
 
 /* Legal pages */

@@ -135,6 +135,7 @@
         <button class="helper__send" type="submit" aria-label="Senden">↑</button>
       </form>
     </div>
+    <button class="helper__teaser" id="helper-teaser" type="button">Brauchst du Hilfe? 💬</button>
     <button class="helper__mascot" id="helper-toggle" type="button" aria-label="Hilfe-Chat öffnen" aria-expanded="true">
       <svg viewBox="0 0 80 120" width="64" height="96" aria-hidden="true">
         <path d="M28 108 V30 a14 14 0 0 1 28 0 V92 a8 8 0 0 1 -16 0 V40" fill="none" stroke="#c6ff3d" stroke-width="7" stroke-linecap="round"/>
@@ -172,6 +173,7 @@
 
       toggle.addEventListener('click', () => setOpen(helper.classList.contains('helper--closed')));
       document.getElementById('helper-close').addEventListener('click', () => setOpen(false));
+      document.getElementById('helper-teaser').addEventListener('click', () => setOpen(true));
 
       const addBubble = (text, fromUser) => {
         const bubble = document.createElement('p');
