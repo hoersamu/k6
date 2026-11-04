@@ -73,11 +73,26 @@ main > section,
 /* Hero */
 .hero { padding-top: 56px; padding-bottom: 56px; }
 
+.hero__slogan {
+  margin-top: 28px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: clamp(0.8rem, 3.4vw, 1rem);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.hero__slogan::before { content: "→ "; color: var(--lime); }
+
+.hero__slogan span {
+  color: var(--text);
+  font-weight: 700;
+}
+
 .hero__title {
   font-size: clamp(2.8rem, 10vw, 6.5rem);
   line-height: 1.08;
   letter-spacing: -0.05em;
-  margin: 24px 0 28px;
+  margin: 12px 0 28px;
 }
 
 .hero__title mark {
