@@ -124,6 +124,76 @@
     </nav>
   </footer>
 
+  <aside class="helper" id="helper" aria-label="Hilfe-Chat">
+    <div class="helper__panel" id="helper-panel">
+      <button class="helper__close" id="helper-close" type="button" aria-label="Schließen">×</button>
+      <div class="helper__messages" id="helper-messages">
+        <p class="helper__bubble">Hi! 👋 Sieht so aus, als würdest du einen Podcast suchen. Brauchst du Hilfe?</p>
+      </div>
+      <form class="helper__form" id="helper-form">
+        <input class="helper__input" id="helper-input" type="text" placeholder="Frag Klippi was …" autocomplete="off">
+        <button class="helper__send" type="submit" aria-label="Senden">↑</button>
+      </form>
+    </div>
+    <button class="helper__mascot" id="helper-toggle" type="button" aria-label="Hilfe-Chat öffnen" aria-expanded="true">
+      <svg viewBox="0 0 80 120" width="64" height="96" aria-hidden="true">
+        <path d="M28 108 V30 a14 14 0 0 1 28 0 V92 a8 8 0 0 1 -16 0 V40" fill="none" stroke="#c6ff3d" stroke-width="7" stroke-linecap="round"/>
+        <path d="M28 108 a14 14 0 0 0 28 0 V100" fill="none" stroke="#c6ff3d" stroke-width="7" stroke-linecap="round"/>
+        <g class="helper__eyes">
+          <circle cx="30" cy="44" r="10" fill="#fff" stroke="#0b0b0f" stroke-width="2"/>
+          <circle cx="54" cy="44" r="10" fill="#fff" stroke="#0b0b0f" stroke-width="2"/>
+          <circle class="helper__pupil" cx="32" cy="46" r="4" fill="#0b0b0f"/>
+          <circle class="helper__pupil" cx="56" cy="46" r="4" fill="#0b0b0f"/>
+        </g>
+        <path d="M20 28 q10 -8 20 -2 M46 26 q10 -6 20 2" fill="none" stroke="#f4f4f6" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </aside>
+
+  <script>
+    (() => {
+      const helper = document.getElementById('helper');
+      const toggle = document.getElementById('helper-toggle');
+      const messages = document.getElementById('helper-messages');
+      const form = document.getElementById('helper-form');
+      const input = document.getElementById('helper-input');
+      const replies = [
+        'Hmm, gute Frage. Ich bin leider nur Deko. 📎',
+        'Hast du schon versucht, den Podcast aus- und wieder einzuschalten?',
+        'Ich leite das an Samuel und Lucas weiter … per Brieftaube. 🕊️',
+        'Es sieht so aus, als würdest du eine Frage stellen. Leider kann ich nichts. ✨',
+      ];
+      let replyIndex = 0;
+
+      const setOpen = (open) => {
+        helper.classList.toggle('helper--closed', !open);
+        toggle.setAttribute('aria-expanded', String(open));
+      };
+
+      toggle.addEventListener('click', () => setOpen(helper.classList.contains('helper--closed')));
+      document.getElementById('helper-close').addEventListener('click', () => setOpen(false));
+
+      const addBubble = (text, fromUser) => {
+        const bubble = document.createElement('p');
+        bubble.className = 'helper__bubble' + (fromUser ? ' helper__bubble--user' : '');
+        bubble.textContent = text;
+        messages.appendChild(bubble);
+        messages.scrollTop = messages.scrollHeight;
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+        addBubble(text, true);
+        input.value = '';
+        setTimeout(() => addBubble(replies[replyIndex++ % replies.length], false), 700);
+      });
+
+      if (window.matchMedia('(max-width: 600px)').matches) setOpen(false);
+    })();
+  </script>
+
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
