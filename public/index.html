@@ -201,7 +201,7 @@
     <div class="aiwanger__bubble">
       <button class="aiwanger__close" id="aiwanger-close" type="button" aria-label="AIwanger schließen">×</button>
       <blockquote class="aiwanger__quote" id="aiwanger-quote"></blockquote>
-      <p class="aiwanger__source" id="aiwanger-source"></p>
+      <p class="aiwanger__source">– Hubert <span class="aiwanger__ai">AI</span>wanger, <span id="aiwanger-source"></span></p>
       <button class="aiwanger__next" id="aiwanger-next" type="button">Noch eins ↻</button>
     </div>
     <div class="aiwanger__figure">
@@ -220,7 +220,7 @@
         <rect x="8" y="56" width="8" height="14" rx="3" fill="#ff4fd8" stroke="#0b0b0f" stroke-width="2"/>
         <rect x="74" y="56" width="8" height="14" rx="3" fill="#ff4fd8" stroke="#0b0b0f" stroke-width="2"/>
       </svg>
-      <span class="aiwanger__name">AIwanger</span>
+      <span class="aiwanger__name"><span class="aiwanger__ai">AI</span>wanger</span>
     </div>
   </aside>
 
@@ -250,7 +250,7 @@
       const showQuote = () => {
         const current = quotes[quoteIndex % quotes.length];
         quote.textContent = '„' + current.text + '“';
-        source.textContent = '– Hubert Aiwanger, ' + current.source;
+        source.textContent = current.source;
         quoteIndex++;
       };
 
