@@ -164,8 +164,36 @@
         'Hast du schon versucht, den Podcast aus- und wieder einzuschalten?',
         'Ich leite das an Samuel und Lucas weiter … per Brieftaube. 🕊️',
         'Es sieht so aus, als würdest du eine Frage stellen. Leider kann ich nichts. ✨',
+        'Laut meinen Berechnungen: 42.',
+        'Ich bin eine Büroklammer. Ich halte Dinge zusammen, keine Gespräche.',
+        'Das klingt nach einem Fall für die nächste Folge. 🎙️',
+        'Moment, ich google das kurz … nein, doch nicht.',
+        'Ich bin zu 0 % KI und zu 100 % Draht.',
+        'Interessant! Erzähl mir mehr. (Ich höre nicht zu.)',
+        'Hast du schon die Cookies akzeptiert? Ach nee, wir haben ja keine. 🍪',
+        'Ich habe das an die Rechtsabteilung weitergeleitet. Die ist auch eine Büroklammer.',
+        'Fun Fact: Ich wurde nie für das Gespräch trainiert. Nur fürs Klammern.',
+        'Ich würde ja helfen, aber ich hab keine Arme. 📎',
+        'Error 418: Ich bin eine Teekanne. Äh, Büroklammer.',
+        'Gute Frage. Nächste Frage.',
+        'Das steht bestimmt irgendwo in den AGB. Die wir nicht haben.',
+        'Ich bin gerade im Meeting. Mit mir selbst.',
       ];
-      let replyIndex = 0;
+      const keywordReplies = [
+        [/folge|episode|wann/i, 'Die erste Folge kommt bald. „Bald“ ist ein dehnbarer Begriff. ⏳'],
+        [/samuel/i, 'Samuel? Der ist gerade im Standup. Seit 45 Minuten.'],
+        [/lucas/i, 'Lucas hat gerade drei Kunden gleichzeitig. Ich richte es aus. Vielleicht.'],
+        [/\b(ki|ai|gpt|chatgpt|llm)\b/i, 'KI? Ich bin quasi die Ur-KI. Nur ohne das „I“.'],
+        [/spotify|apple|youtube|tiktok|instagram|abo/i, 'Abonnieren geht bald! Scroll mal runter zu „Nicht verpassen.“ 👇'],
+        [/hallo|hi\b|hey|moin|servus|grüß/i, 'Servus! Schön, dass du da bist. Ich kann trotzdem nichts. 👋'],
+        [/danke|thx|thanks/i, 'Gern geschehen! Ich hab zwar nichts gemacht, aber gern.'],
+        [/shop|e-?commerce|checkout|warenkorb/i, 'In den Warenkorb legen kann ich dich leider nicht. Ich hab’s versucht.'],
+      ];
+      let replyIndex = Math.floor(Math.random() * replies.length);
+      const pickReply = (text) => {
+        const match = keywordReplies.find(([pattern, reply]) => reply && pattern.test(text));
+        return match ? match[1] : replies[replyIndex++ % replies.length];
+      };
 
       const setOpen = (open) => {
         helper.classList.toggle('helper--closed', !open);
@@ -190,92 +218,13 @@
         if (!text) return;
         addBubble(text, true);
         input.value = '';
-        setTimeout(() => addBubble(replies[replyIndex++ % replies.length], false), 700);
+        setTimeout(() => addBubble(pickReply(text), false), 700);
       });
 
-      setOpen(false);
+      if (window.matchMedia('(max-width: 600px)').matches) setOpen(false);
     })();
   </script>
 
-  <aside class="aiwanger aiwanger--hidden" id="aiwanger" aria-label="AIwanger-Zitate" aria-live="polite">
-    <div class="aiwanger__bubble">
-      <button class="aiwanger__close" id="aiwanger-close" type="button" aria-label="AIwanger schließen">×</button>
-      <blockquote class="aiwanger__quote" id="aiwanger-quote"></blockquote>
-      <p class="aiwanger__source">– Hubert <span class="aiwanger__ai">AI</span>wanger, <span id="aiwanger-source"></span></p>
-      <button class="aiwanger__next" id="aiwanger-next" type="button">Noch eins ↻</button>
-    </div>
-    <div class="aiwanger__figure">
-      <svg viewBox="0 0 90 100" width="72" height="80" aria-hidden="true">
-        <!-- hat -->
-        <path d="M14 34 q31 -10 62 0 l-4 6 q-27 -7 -54 0 z" fill="#2f5d3a" stroke="#0b0b0f" stroke-width="2"/>
-        <path d="M26 30 q4 -20 19 -20 q15 0 19 20 q-19 -5 -38 0 z" fill="#3f7a4d" stroke="#0b0b0f" stroke-width="2"/>
-        <path d="M27 28 q18 -5 36 0" fill="none" stroke="#c6ff3d" stroke-width="3"/>
-        <path d="M64 26 q10 -18 2 -24 M66 26 q14 -14 10 -22 M62 26 q4 -18 -4 -22" fill="none" stroke="#a3a3b2" stroke-width="2" stroke-linecap="round"/>
-        <!-- robot head -->
-        <rect x="16" y="40" width="58" height="46" rx="12" fill="#4f8bff" stroke="#0b0b0f" stroke-width="2"/>
-        <rect x="23" y="48" width="44" height="28" rx="7" fill="#0b0b0f"/>
-        <circle class="aiwanger__eye" cx="36" cy="60" r="5" fill="#c6ff3d"/>
-        <circle class="aiwanger__eye" cx="54" cy="60" r="5" fill="#c6ff3d"/>
-        <path d="M37 70 q8 4 16 0" fill="none" stroke="#c6ff3d" stroke-width="2.5" stroke-linecap="round"/>
-        <rect x="8" y="56" width="8" height="14" rx="3" fill="#ff4fd8" stroke="#0b0b0f" stroke-width="2"/>
-        <rect x="74" y="56" width="8" height="14" rx="3" fill="#ff4fd8" stroke="#0b0b0f" stroke-width="2"/>
-      </svg>
-      <span class="aiwanger__name"><span class="aiwanger__ai">AI</span>wanger</span>
-    </div>
-  </aside>
-
-  <script>
-    (() => {
-      // Only quotes documented by press reports; source shown under each one.
-      const quotes = [
-        {
-          text: 'Jetzt ist der Punkt erreicht, wo die schweigende große Mehrheit dieses Landes sich die Demokratie wieder zurückholen muss.',
-          source: 'Kundgebung gegen das Heizungsgesetz, Erding, Juni 2023',
-        },
-        {
-          text: 'Ich habe das Volk dort abgeholt, wo es war.',
-          source: 'bei „Markus Lanz“ zu seiner Erding-Rede, 2023',
-        },
-        {
-          text: 'Wir wollen uns nicht von weltfremden Ideologen bevormunden lassen!',
-          source: 'Politischer Gillamoos, Abensberg, 2022',
-        },
-      ];
-      const widget = document.getElementById('aiwanger');
-      const quote = document.getElementById('aiwanger-quote');
-      const source = document.getElementById('aiwanger-source');
-      let quoteIndex = Math.floor(Math.random() * quotes.length);
-      let rotationTimer;
-
-      const showQuote = () => {
-        const current = quotes[quoteIndex % quotes.length];
-        quote.textContent = '„' + current.text + '“';
-        source.textContent = current.source;
-        quoteIndex++;
-      };
-
-      const startRotation = () => {
-        clearInterval(rotationTimer);
-        rotationTimer = setInterval(showQuote, 9000);
-      };
-
-      const hide = () => {
-        widget.classList.add('aiwanger--hidden');
-        clearInterval(rotationTimer);
-      };
-
-      document.getElementById('aiwanger-close').addEventListener('click', hide);
-      document.getElementById('aiwanger-next').addEventListener('click', () => { showQuote(); startRotation(); });
-      document.getElementById('helper-toggle').addEventListener('click', hide);
-      document.getElementById('helper-teaser').addEventListener('click', hide);
-
-      showQuote();
-      setTimeout(() => {
-        widget.classList.remove('aiwanger--hidden');
-        startRotation();
-      }, 2500);
-    })();
-  </script>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
